@@ -10,14 +10,15 @@ module Api
         @user = User.find_by(email: params[:email])
 
         if @user && @user.authenticate(params[:password])
-          token = encode_token({user_id: @user.id})
+          token = encode_token({ user_id: @user.id })
           if token.nil?
-            render json: {error: 'JWT encoding error.'}, status: :internal_server_error; return
+            render json: { error: 'JWT encoding error.' }, status: :internal_server_error
+            return
           end
 
-          render json: {user: @user, token: token}, status: :ok
+          render json: { user: @user, token: token }, status: :ok
         else
-          render json: {error: "Invalid email or password"}, status: :unprocessable_entity
+          render json: { error: 'Invalid email or password' }, status: :unprocessable_entity
         end
       end
 
